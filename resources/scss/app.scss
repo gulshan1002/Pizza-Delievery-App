@@ -44,3 +44,35 @@ section.hero
 {
     row-gap: 4rem;
 }
+.btn-primary
+{
+    background: $primary;
+    transition: $smooth;
+    &:hover
+    {
+        background: $primary-hover;
+        border-color: $pure;
+        color: $pure;
+    }
+}
+section.cart
+{
+    background: $secondary;
+    .amount
+    {
+        color: $primary
+    }
+}
+section.login
+{
+    background: $secondary;
+    min-height: 100vh;
+    a
+    {
+        color: $primary;
+        &:hover
+        {
+            color: $primary-hover;
+        }
+    }  
+}
