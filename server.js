@@ -1,35 +1,38 @@
 const express = require('express');
 const ejs = require("ejs");
 const path = require("path");
-const expressEjsLayouts = require("express-ejs-layouts");
+// const expressEjsLayouts = require("express-ejs-layouts");
 require("dotenv").config();
+const {initRoutes} = require("./routes/web");
+const mongoose = require("mongoose");
 
 const app = express();
-
-
-
 
 // app.use(expressEjsLayouts);
 app.set("views", path.join(__dirname,"/resources/views"));
 app.set('view engine', 'ejs');
 app.use(express.static('public'))
 
-app.get("/", (req,res)=>
+//MongoDB Connection
+const url = "mongodb://localhost:27017/pizza";
+mongoose.connect(url, {useNewUrlParser: true});
+const connection = mongoose.connection;
+connection.once("open",(err)=>
 {
-    res.render("home");
+    if(err)
+    {
+        console.log("MongoDB Connection failed...");
+    }
+    else
+    {
+        console.log("MongoDB Database connected...");
+    }
 });
-app.get("/cart",(req,res)=>
-{
-    res.render("cart");
-});
-app.get("/login", (req,res)=>
-{
-    res.render("login");
-});
-app.get("/register",(req,res)=>
-{
-    res.render("register");
-});
+
+// Routing 
+initRoutes(app);
+
+
 
 app.listen(process.env.PORT, (err)=>
 {
@@ -39,6 +42,6 @@ app.listen(process.env.PORT, (err)=>
     }
     else
     {
-        console.log(`server is listening on port ${process.env.PORT}`);
+        console.log(`server is listening on port ${process.env.PORT}...`);
     }
 });
